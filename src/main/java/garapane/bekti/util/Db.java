@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Db {
     public static void hindar(Exception e,String r){
         java.sql.Timestamp t=java.sql.Timestamp.valueOf(LocalDateTime.now());
-        java.io.File f=new java.io.File("error/"+r.replaceAll(":","").replaceAll(".","")+"/"+t.getDate()+t.getMonth()+t.getYear()+"_"+t.getHours()+
+        java.io.File f=new java.io.File("error/"+r.replaceAll(":"," ").replaceAll("."," ")+"/"+t.getDate()+t.getMonth()+t.getYear()+"_"+t.getHours()+
         t.getMinutes()+t.getSeconds()+t.getNanos()+".log");
         if(!f.getParentFile().exists())f.getParentFile().mkdirs();try {
             java.io.PrintWriter o=new java.io.PrintWriter(f);
