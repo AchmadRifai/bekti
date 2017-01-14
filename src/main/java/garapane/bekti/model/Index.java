@@ -59,6 +59,7 @@ public class Index {
     }
 
     private void prosesBulan(Date pol, Date buri) throws SQLException {
+        if(pol==null||buri==null)return;
         java.time.LocalDate l1=buri.toLocalDate(),l2=pol.toLocalDate(),i=java.time.LocalDate.of(l1.getYear(), l1.getMonth(), 1);
         while(i.equals(l2)||i.isBefore(l2)){
             java.time.Month m=i.getMonth();
