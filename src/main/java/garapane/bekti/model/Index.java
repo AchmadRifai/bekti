@@ -89,7 +89,7 @@ public class Index {
     }
 
     private void prosesTahun(String t) throws SQLException {
-        for(Guru g:guruList())for(java.time.Month m:java.time.Month.values())try{
+        for(java.time.Month m:java.time.Month.values())for(Guru g:guruList())try{
             GajiGuru gg=new GajiGuru(m,g,t);
             if(null!=gg.getK())gajine.add(gg);
         }catch(SQLException e){
