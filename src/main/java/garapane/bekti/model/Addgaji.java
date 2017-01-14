@@ -90,7 +90,7 @@ public class Addgaji {
 
     private String tpne() {
         int i=tgl.getMonth()-1;String kode;
-        if(i<7)kode=""+tgl.getYear()+"/"+(tgl.getYear()-1);
+        if(i<6)kode=""+tgl.getYear()+"/"+(tgl.getYear()-1);
         else kode=""+(1+tgl.getYear())+"/"+tgl.getYear();
         return kode;
     }
