@@ -18,6 +18,7 @@ import org.joda.money.CurrencyUnit;
  * @author ai
  */
 @javax.faces.bean.ManagedBean
+@javax.faces.bean.ApplicationScoped
 public class Lap_bulan {
     private String kode;
     private Date mulai,henti;
@@ -30,17 +31,17 @@ public class Lap_bulan {
 
     public void setKode(String kode) {
         this.kode = kode;
-        if(kode!=null&&henti!=null&&mulai!=null)inisial();
+        if(this.kode!=null&&henti!=null&&mulai!=null)inisial();
     }
 
     public void setMulai(Date mulai) {
         this.mulai = mulai;
-        if(kode!=null&&henti!=null&&mulai!=null)inisial();
+        if(kode!=null&&henti!=null&&this.mulai!=null)inisial();
     }
 
     public void setHenti(Date henti) {
         this.henti = henti;
-        if(kode!=null&&henti!=null&&mulai!=null)inisial();
+        if(kode!=null&&this.henti!=null&&mulai!=null)inisial();
     }
 
     private void inisial() {

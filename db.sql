@@ -14,6 +14,7 @@ tipe varchar(6)not null
 );create table gaji(
 guru varchar(20)not null,
 trans varchar(20)not null,
-bulan varchar(20)not null
+bulan varchar(20)not null,
+t varchar(15)not null
 );alter table gaji add foreign key(guru)references guru(kode)on update cascade on delete cascade;
 alter table gaji add foreign key(trans)references akutansi(kode)on update cascade on delete cascade;

@@ -13,6 +13,7 @@ import org.joda.money.CurrencyUnit;
  * @author ai
  */
 @javax.faces.bean.ManagedBean
+@javax.faces.bean.ApplicationScoped
 public class Kas1 {
     private String hal,ket;
     private org.joda.money.Money kredit,debit,saldo;
@@ -24,9 +25,9 @@ public class Kas1 {
         p.setString(1, kode);
         java.sql.ResultSet r=p.executeQuery();
         if(r.next()){
-            kredit="kredit".equals(r.getString("tipe"))?org.joda.money.Money.of(CurrencyUnit.of("IDR"), r.getLong("duwek")):
+            kredit="kredit".equals(r.getString("tipe"))?org.joda.money.Money.of(CurrencyUnit.of("IDR"), r.getLong("duwik")):
                     org.joda.money.Money.zero(CurrencyUnit.of("IDR"));
-            debit="debit".equals(r.getString("tipe"))?org.joda.money.Money.of(CurrencyUnit.of("IDR"), r.getLong("duwek")):
+            debit="debit".equals(r.getString("tipe"))?org.joda.money.Money.of(CurrencyUnit.of("IDR"), r.getLong("duwik")):
                     org.joda.money.Money.zero(CurrencyUnit.of("IDR"));
             saldo=org.joda.money.Money.zero(CurrencyUnit.of("IDR"));
             tgl=r.getDate("tgl");

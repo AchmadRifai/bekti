@@ -7,13 +7,82 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Laporan</title>
+        <f:metadata>
+            <f:viewAction action="#{user.sudahMasuk()}"/>
+        </f:metadata>
+        <title>DASHBOARD</title>
     </h:head>
     <h:body>
+        <h:form>
+            <p:dock position="top">
+                <p:menuitem value="TAMBAH GURU" icon="img/add-work.png" onclick="PF('guruDLG').show()"/>
+                <p:menuitem value="TAMBAH GAJI" icon="img/addpay.png" onclick="PF('gajiDLG').show()"/>
+                <p:menuitem value="TAMBAH TRANSAKSI" icon="img/add-trans.jpg" onclick="PF('transDLG').show()"/>
+                <p:menuitem value="KELUAR" icon="img/Logout.png" action="#{user.logout()}"/>
+            </p:dock>
+                <p:dialog widgetVar="gajiDLG" header="Dialog Pendataan Gaji" modal="true" closable="true">
+                <h:panelGrid columns="2">
+                    <p:selectOneRadio value="#{addgaji.guru}" layout="grid" columns="1">
+                        <f:selectItems value="#{addgaji.allGuru()}" var="l" itemValue="#{l}" itemLabel="#{l}"/>
+                    </p:selectOneRadio>
+                    <p:calendar value="#{addgaji.tgl}" showOn="button"/>
+                    <h:outputText value="Masukan Jumlah Gaji : "/>
+                    <p:inputNumber value="#{addgaji.jum}"/>
+                    <p:commandButton action="#{addgaji.simpen()}" value="SIMPAN" icon="ui-icon-check"/>
+                </h:panelGrid>
+            </p:dialog>
+            <p:dialog widgetVar="transDLG" header="Dialog Pendataan Keuangan" modal="true" closable="true">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Masukan Tanggal Transaksi : "/>
+                    <p:calendar value="#{addtrans.tgl}" showOn="button"/>
+                    <h:outputText value="Masukan Hal : "/>
+                    <p:inputText value="#{addtrans.hal}"/>
+                    <p:selectOneRadio value="#{addtrans.tipe}" layout="grid" columns="1">
+                        <f:selectItems value="#{addtrans.kabehTipe()}" var="t" itemValue="#{t}" itemLabel="#{t}"/>
+                    </p:selectOneRadio>
+                    <p:inputNumber value="#{addtrans.duwek}"/>
+                    <h:outputText value="Keterangan : "/>
+                    <p:inputTextarea value="#{addtrans.ket}"/>
+                    <p:commandButton action="#{addtrans.save()}" value="SIMPAN" icon="ui-icon-check"/>
+                </h:panelGrid>
+            </p:dialog>
+            <p:dialog widgetVar="guruDLG" header="Dialog Pendataan Guru" modal="true" closable="true">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Masukan Kode Guru : "/>
+                    <p:inputText value="#{addguru.kode}"/>
+                    <h:outputText value="Masukan Nama : "/>
+                    <p:inputText value="#{addguru.nama}"/>
+                    <h:outputText value="Masukan Tanggal Masuk : "/>
+                    <p:calendar value="#{addguru.masuk}" showOn="button"/>
+                    <h:outputText value="Masukan Alamat : "/>
+                    <p:inputTextarea value="#{addguru.alamat}"/>
+                    <p:commandButton value="SIMPAN" action="#{addguru.save()}"/>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
         <p:tabView>
+            <p:tab title="Daftar Guru" closable="true" id="tabGuru">
+                <h:form>
+                    <h:commandLink>
+                    <p:graphicImage name="img/excel.png"/>
+                    <p:dataExporter target="gurutbl" type="xls" fileName="guru" pageOnly="true" postProcessor="#{admin.postGuru}"/>
+                </h:commandLink>
+                    <p:dataTable value="#{admin.gurune}" var="guru" id="gurutbl">
+                    <p:column headerText="Nama">
+                        <h:outputText value="#{guru.nama}"/>
+                    </p:column>
+                    <p:column headerText="Alamat">
+                        <h:outputText value="#{guru.alamat}"/>
+                    </p:column>
+                    <p:column headerText="Tanggal Masuk">
+                        <h:outputText value="#{guru.masuk}"/>
+                    </p:column>
+                </p:dataTable>
+                </h:form>
+            </p:tab>
             <p:tab title="Gaji Guru" closable="true">
                 <h:form>
                     <p:dataTable value="#{index.gajine}" var="gg" paginator="true" paginatorTemplate="{Exporters}">

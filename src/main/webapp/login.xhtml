@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:metadata>
+            <f:viewAction action="#{user.sedangMasuk()}"/>
+        </f:metadata>
+        <title>LOGIN</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:commandButton value="LOGIN" onclick="PF('dlg').show()" icon="ui-icon-locked"/>
+            <p:dialog widgetVar="dlg" header="LOGIN" closable="true" modal="true">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Username : "/>
+                    <p:inputText value="#{user.user}"/>
+                    <h:outputText value="Password : "/>
+                    <p:password value="#{user.pass}"/>
+                    <p:commandButton action="#{user.login()}" value="MASUK" icon="ui-icon-unlocked"/>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>

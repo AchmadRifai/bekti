@@ -12,6 +12,7 @@ import java.sql.SQLException;
  * @author ai
  */
 @javax.faces.bean.ManagedBean
+@javax.faces.bean.ApplicationScoped
 public class Guru {
     private String kode,nama,alamat;
     private java.sql.Date masuk;

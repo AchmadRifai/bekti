@@ -5,61 +5,37 @@
  */
 package garapane.bekti.beans;
 
-import garapane.bekti.util.Db;
-import java.sql.SQLException;
-import java.time.Month;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+import java.util.List;
 
 /**
  *
  * @author ai
  */
 @javax.faces.bean.ManagedBean
+@javax.faces.bean.ApplicationScoped
 public class Lap_tahun {
     private String kode;
-    private java.sql.Date mulai,henti;
-    private java.util.List<GajiGuru>gaji;
+    private Date mulai,henti;
+    private List<GajiGuru>gaji;
+
+    public Lap_tahun(String kode, Date mulai, Date henti) {
+        this.kode = kode;
+        this.mulai = mulai;
+        this.henti = henti;
+        gaji=new java.util.LinkedList<GajiGuru>();
+        allGaji();
+    }
+
+    private void allGaji() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public String getKode() {
         return kode;
     }
 
-    public void setKode(String kode) {
-        this.kode = kode;
-        if(kode!=null&&mulai!=null&&henti!=null)gajine();
-    }
-
-    public java.sql.Date getMulai() {
-        return mulai;
-    }
-
-    public void setMulai(java.sql.Date mulai) {
-        this.mulai = mulai;
-        if(kode!=null&&mulai!=null&&henti!=null)gajine();
-    }
-
-    public java.sql.Date getHenti() {
-        return henti;
-    }
-
-    public void setHenti(java.sql.Date henti) {
-        this.henti = henti;
-        if(kode!=null&&mulai!=null&&henti!=null)gajine();
-    }
-
-    private void gajine() {
-        HttpServletRequest req=(HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();try {
-            Db d=new Db();
-            gaji=new java.util.LinkedList<GajiGuru>();
-            ulane(d,Month.JUNE);
-            d.close();
-        } catch (SQLException ex) {
-            Db.hindar(ex, req.getRemoteAddr());
-        }
-    }
-
-    private void ulane(Db d, Month month) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<GajiGuru> getGaji() {
+        return gaji;
     }
 }
