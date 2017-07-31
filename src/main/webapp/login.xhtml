@@ -14,8 +14,24 @@ and open the template in the editor.
             <f:viewAction action="#{user.sedangMasuk()}"/>
         </f:metadata>
         <title>LOGIN</title>
+        <style>
+            .tengahe{text-align: center;margin: 0 auto;}
+            html,body{
+                margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: table;
+            }
+        </style>
     </h:head>
     <h:body>
+        <div style="display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    ">
+            <div style="display: inline-block;
+                text-align: left;">
         <h:form>
             <p:commandButton value="LOGIN" onclick="PF('dlg').show()" icon="ui-icon-locked"/>
             <p:dialog widgetVar="dlg" header="LOGIN" closable="true" modal="true">
@@ -28,5 +44,7 @@ and open the template in the editor.
                 </h:panelGrid>
             </p:dialog>
         </h:form>
+            </div>
+        </div>
     </h:body>
 </html>
