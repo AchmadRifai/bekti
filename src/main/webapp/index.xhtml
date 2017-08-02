@@ -14,6 +14,31 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <p:tabView>
+            <p:tab title="Jurnal Umum" closable="true">
+                <h:form>
+                    <h:commandLink>
+                        <p:graphicImage name="img/excel.png"/>
+                        <p:dataExporter target="ju" type="xls" fileName="JurnalUmum"/>
+                    </h:commandLink>
+                    <p:dataTable var="ju" paginator="true" rows="20" id="ju" value="#{index.ju}">
+                        <p:column headerText="Tanggal">
+                            <h:outputText value="#{ju.tgl}"/>
+                        </p:column>
+                        <p:column headerText="Keterangan">
+                            <h:outputText value="#{ju.ket}"/>
+                        </p:column>
+                        <p:column headerText="Ref">
+                            <h:outputText value="#{ju.ref}"/>
+                        </p:column>
+                        <p:column headerText="Debit">
+                            <h:outputText value="#{ju.debit}"/>
+                        </p:column>
+                        <p:column headerText="Kredit">
+                            <h:outputText value="#{ju.kredit}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:tab>
             <p:tab title="Gaji Guru" closable="true">
                 <h:form>
                     <h:commandLink>

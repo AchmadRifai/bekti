@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.joda.money.CurrencyUnit;
 
 /**
  *
@@ -24,6 +25,7 @@ public class Index {
     private List<GajiGuru>gajine;
     private List<Ulan1>bln;
     private List<Ulan2>bln2;
+    private List<garapane.bekti.beans.JurnalUmum>ju;
 
     public List<GajiGuru> getGajine() {
         return gajine;
@@ -31,15 +33,11 @@ public class Index {
 
     @javax.annotation.PostConstruct
     public void init(){
-        HttpServletRequest req=(HttpServletRequest) javax.faces.context.FacesContext.getCurrentInstance().getExternalContext().getRequest();try {
-            bln=new java.util.LinkedList<Ulan1>();
-            bln2=new java.util.LinkedList<Ulan2>();
-            gajine=new java.util.LinkedList<GajiGuru>();
-            gajine();
-            wulane();
-        } catch (SQLException ex) {
-            garapane.bekti.util.Db.hindar(ex, req.getRemoteAddr());
-        }
+        bln=new java.util.LinkedList<Ulan1>();
+        bln2=new java.util.LinkedList<Ulan2>();
+        gajine=new java.util.LinkedList<GajiGuru>();
+        ju=new java.util.LinkedList<>();
+        dhewe();
     }
 
     public List<Ulan2> getBln2() {
@@ -105,5 +103,37 @@ public class Index {
         r.close();
         d.close();
         return l;
+    }
+
+    public List<garapane.bekti.beans.JurnalUmum> getJu() {
+        return ju;
+    }
+
+    private void dhewe(){
+        HttpServletRequest req=(HttpServletRequest) javax.faces.context.FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        try{
+            jurnalUmum();
+            gajine();
+            wulane();
+        }catch(SQLException e){garapane.bekti.util.Db.hindar(e, req.getRemoteAddr());}
+    }
+
+    private void jurnalUmum()throws SQLException{
+        garapane.bekti.util.Db d=new garapane.bekti.util.Db();
+        java.sql.ResultSet r=d.getRS("select tgl,ket,hal,duwik,tipe from akutansi order by tgl");
+        while(r.next()){
+            garapane.bekti.beans.JurnalUmum j=new garapane.bekti.beans.JurnalUmum();
+            if("kredit"==r.getString("tipe")){
+                j.setDebit(org.joda.money.Money.zero(CurrencyUnit.of("IDR")));
+                j.setKredit(org.joda.money.Money.of(CurrencyUnit.of("IDR"), r.getBigDecimal("duwik")));
+            }else{
+                j.setDebit(org.joda.money.Money.of(CurrencyUnit.of("IDR"), r.getBigDecimal("duwik")));
+                j.setKredit(org.joda.money.Money.zero(CurrencyUnit.of("IDR")));
+            }j.setKet(r.getString("ket"));
+            j.setTgl(r.getDate("tgl"));
+            j.setRef(r.getString("hal"));
+            ju.add(j);
+        }r.close();
+        d.close();
     }
 }
