@@ -13,122 +13,147 @@ and open the template in the editor.
         <title>Laporan</title>
     </h:head>
     <h:body>
-        <p:tabView>
-            <p:tab title="Jurnal Umum" closable="true">
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="300" style="align-content: center">
+                <p:galleria value="#{gbre.g}" var="g" showCaption="true" panelWidth="1000">
+                    <h:graphicImage title="Gambar #{g}" value="img/#{g}" alt="Gambar TK #{g}"/>
+                </p:galleria>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
                 <h:form>
-                    <h:commandLink>
-                        <p:graphicImage name="img/excel.png"/>
-                        <p:dataExporter target="ju" type="xls" fileName="JurnalUmum"/>
-                    </h:commandLink>
-                    <p:dataTable var="ju" paginator="true" rows="20" id="ju" value="#{index.ju}">
-                        <p:column headerText="Tanggal">
-                            <h:outputText value="#{ju.tgl}"/>
-                        </p:column>
-                        <p:column headerText="Keterangan">
-                            <h:outputText value="#{ju.ket}"/>
-                        </p:column>
-                        <p:column headerText="Ref">
-                            <h:outputText value="#{ju.ref}"/>
-                        </p:column>
-                        <p:column headerText="Debit">
-                            <h:outputText value="#{ju.debit}"/>
-                        </p:column>
-                        <p:column headerText="Kredit">
-                            <h:outputText value="#{ju.kredit}"/>
-                        </p:column>
-                    </p:dataTable>
+                    <p:dock position="top">
+                        <p:menuitem value="TAMBAH GURU" icon="img/login-ico.png" onclick="PF('dlg').show()"/>
+                    </p:dock>
+                    <p:dialog widgetVar="dlg" header="LOGIN" closable="true" modal="true">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Username : "/>
+                            <p:inputText value="#{user.user}"/>
+                            <h:outputText value="Password : "/>
+                            <p:password value="#{user.pass}"/>
+                            <p:commandButton action="#{user.login()}" value="MASUK" icon="ui-icon-unlocked"/>
+                        </h:panelGrid>
+                    </p:dialog>
                 </h:form>
-            </p:tab>
-            <p:tab title="Gaji Guru" closable="true">
-                <h:form>
-                    <h:commandLink>
-                                        <p:graphicImage name="img/excel.png"/>
-                                        <p:dataExporter target="gg" type="xls" fileName="kas1"/>
-                                    </h:commandLink>
-                    <p:dataTable value="#{index.gajine}" var="gg" paginator="true" rows="20" id="gg">
-                        <p:column headerText="Bulan">
-                            <h:outputText value="#{gg.bulan}"/>
-                        </p:column>
-                        <p:column headerText="Nama">
-                            <h:outputText value="#{gg.g.nama}"/>
-                        </p:column>
-                        <p:column headerText="Jumlah">
-                            <h:outputText value="#{gg.k.kredit}"/>
-                        </p:column>
-                        <p:column headerText="Tahun Ajaran">
-                            <h:outputText value="#{gg.tp}"/>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-            </p:tab>
-            <p:tab title="Kas 1" closable="true">
-                <h:form>
-                    <p:dataGrid value="#{index.bln}" var="u" paginator="true" columns="1" rows="6">
-                        <p:panel header="#{u.kode}">
-                            <p:dataTable value="#{u.l}" var="kas1" paginatorTemplate="{Exporters}" id="tblKas1" paginator="true">
-                                <f:facet name="{Exporters}">
-                                    <h:commandLink>
-                                        <p:graphicImage name="img/excel.png"/>
-                                        <p:dataExporter target="tblKas1" type="xls" fileName="kas1"/>
-                                    </h:commandLink>
-                                </f:facet>
+                <p:tabView>
+                    <p:tab title="Jurnal Umum" closable="true">
+                        <h:form>
+                            <h:commandLink>
+                                <h:graphicImage value="img/excel.png"/>
+                                <p:dataExporter target="ju" type="xls" fileName="JurnalUmum"/>
+                            </h:commandLink>
+                            <p:dataTable value="#{index.ju}" var="ju" id="ju" paginator="true" rows="15">
                                 <p:column headerText="Tanggal">
-                                    <h:outputText value="#{kas1.tgl}"/>
-                                </p:column>
-                                <p:column headerText="No">
-                                    <h:outputText value="#{kas1.no}"/>
+                                    <h:outputText value="#{ju.tgl}"/>
                                 </p:column>
                                 <p:column headerText="Keterangan">
-                                    <h:outputText value="#{kas1.ket}"/>
+                                    <h:outputText value="#{ju.ket}"/>
                                 </p:column>
-                                <p:column headerText="Hal">
-                                    <h:outputText value="#{kas1.hal}"/>
+                                <p:column headerText="Ref">
+                                    <h:outputText value="#{ju.ref}"/>
                                 </p:column>
-                                <p:column headerText="Debet">
-                                    <h:outputText value="#{kas1.debit}"/>
+                                <p:column headerText="Debit">
+                                    <h:outputText value="#{ju.debit}"/>
                                 </p:column>
                                 <p:column headerText="Kredit">
-                                    <h:outputText value="#{kas1.kredit}"/>
-                                </p:column>
-                                <p:column headerText="Saldo">
-                                    <h:outputText value="#{kas1.saldo}"/>
+                                    <h:outputText value="#{ju.kredit}"/>
                                 </p:column>
                             </p:dataTable>
-                        </p:panel>
-                    </p:dataGrid>
-                </h:form>
-            </p:tab>
-            <p:tab title="Kas 1 2" closable="true">
-                <h:form>
-                    <p:dataGrid value="#{index.bln2}" var="bln" paginator="true" columns="1" rows="6">
-                        <p:panel header="#{bln.kode}">
-                            <p:dataTable paginator="true" paginatorTemplate="{Exporters}" value="#{bln.l}" var="u2" id="kas12tbl">
-                                <f:facet name="{Exporters}">
-                                    <h:commandLink>
-                                        <p:graphicImage name="img/excel.png"/>
-                                        <p:dataExporter target="kas12tbl" type="xls" fileName="kas12"/>
-                                    </h:commandLink>
-                                </f:facet>
-                                <p:column headerText="Tanggal">
-                                        <h:outputText value="#{u2.tgl}"/>
-                                    </p:column>
-                                    <p:column headerText="Uraian">
-                                        <h:outputText value="#{u2.ket}"/>
-                                    </p:column>
-                                    <p:column headerText="Debit">
-                                        <h:outputText value="#{u2.debit}"/>
-                                    </p:column>
-                                    <p:column headerText="Kredit">
-                                        <h:outputText value="#{u2.kredit}"/>
-                                    </p:column>
-                                    <p:column headerText="Saldo">
-                                        <h:outputText value="#{u2.saldo}"/>
-                                    </p:column>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="Gaji Guru" closable="true">
+                        <h:form>
+                            <h:commandLink>
+                                <h:graphicImage value="img/excel.png"/>
+                                <p:dataExporter target="gg" type="xls" fileName="kas1"/>
+                            </h:commandLink>
+                            <p:dataTable value="#{index.gajine}" var="gg" paginator="true" rows="15" id="gg">
+                                <p:column headerText="Bulan">
+                                    <h:outputText value="#{gg.bulan}"/>
+                                </p:column>
+                                <p:column headerText="Nama">
+                                    <h:outputText value="#{gg.g.nama}"/>
+                                </p:column>
+                                <p:column headerText="Kredit">
+                                    <h:outputText value="#{gg.k.kredit}"/>
+                                </p:column>
+                                <p:column headerText="tahun Ajaran">
+                                    <h:outputText value="#{gg.tp}"/>
+                                </p:column>
                             </p:dataTable>
-                        </p:panel>
-                    </p:dataGrid>
-                </h:form>
-            </p:tab>
-        </p:tabView>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="Kas 1" closable="true">
+                        <h:form>
+                            <p:dataGrid value="#{index.bln}" var="u" paginator="true" columns="1" rows="4">
+                                <p:panel header="#{u.kode}">
+                                    <p:dataTable value="#{u.l}" var="kas1" paginatorTemplate="{Exporters}" id="tblKas1" paginator="true"
+                                                 rows="3">
+                                        <f:facet name="{Exporters}">
+                                            <h:commandLink>
+                                                <h:graphicImage value="img/excel.png"/>
+                                                <p:dataExporter target="tblKas1" type="xls" fileName="kas1"/>
+                                            </h:commandLink>
+                                        </f:facet>
+                                        <p:column headerText="Tanggal">
+                                            <h:outputText value="#{kas1.tgl}"/>
+                                        </p:column>
+                                        <p:column headerText="No">
+                                            <h:outputText value="#{kas1.no}"/>
+                                        </p:column>
+                                        <p:column headerText="Ket">
+                                            <h:outputText value="#{kas1.ket}"/>
+                                        </p:column>
+                                        <p:column headerText="Hal">
+                                            <h:outputText value="#{kas1.hal}"/>
+                                        </p:column>
+                                        <p:column headerText="Debit">
+                                            <h:outputText value="#{kas1.debit}"/>
+                                        </p:column>
+                                        <p:column headerText="Kredit">
+                                            <h:outputText value="#{kas1.kredit}"/>
+                                        </p:column>
+                                        <p:column headerText="Saldo">
+                                            <h:outputText value="#{kas1.saldo}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </p:dataGrid>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="Kas 1 2" closable="true">
+                        <h:form>
+                            <p:dataGrid value="#{index.bln2}" var="bln" paginator="true" columns="1" rows="4">
+                                <p:panel header="#{bln.kode}">
+                                    <p:dataTable paginator="true" paginatorTemplate="{Exporters}" value="#{bln.l}" var="u2" id="kas12tbl"
+                                                 rows="2">
+                                        <f:facet name="{Exporters}">
+                                            <h:commandLink>
+                                                <h:graphicImage value="img/excel.png"/>
+                                                <p:dataExporter target="kas12tbl" type="xls" fileName="kas12"/>
+                                            </h:commandLink>
+                                        </f:facet>
+                                        <p:column headerText="Tanggal">
+                                            <h:outputText value="#{u2.tgl}"/>
+                                        </p:column>
+                                        <p:column headerText="Uraian">
+                                            <h:outputText value="#{u2.ket}"/>
+                                        </p:column>
+                                        <p:column headerText="Debit">
+                                            <h:outputText value="#{u2.debit}"/>
+                                        </p:column>
+                                        <p:column headerText="Kredit">
+                                            <h:outputText value="#{u2.kredit}"/>
+                                        </p:column>
+                                        <p:column headerText="Saldo">
+                                            <h:outputText value="#{u2.saldo}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </p:dataGrid>
+                        </h:form>
+                    </p:tab>
+                </p:tabView>
+            </p:layoutUnit>
+        </p:layout>
     </h:body>
 </html>

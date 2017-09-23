@@ -10,7 +10,7 @@
     </session-config>
     <context-param>  
     <param-name>primefaces.THEME</param-name>  
-    <param-value>omega</param-value>  
+    <param-value>trontastic</param-value>  
 </context-param>
 <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
