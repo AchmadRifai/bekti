@@ -12,28 +12,25 @@ and open the template in the editor.
     <h:head>
         <title>Laporan</title>
     </h:head>
-    <h:body>
-        <p:layout fullPage="true">
-            <p:layoutUnit position="north" size="300" style="align-content: center">
-                <p:galleria value="#{gbre.g}" var="g" showCaption="true" panelWidth="1000">
-                    <h:graphicImage title="Gambar #{g}" value="img/#{g}" alt="Gambar TK #{g}"/>
-                </p:galleria>
-            </p:layoutUnit>
-            <p:layoutUnit position="center">
-                <h:form>
-                    <p:dock position="top">
-                        <p:menuitem value="TAMBAH GURU" icon="img/login-ico.png" onclick="PF('dlg').show()"/>
-                    </p:dock>
-                    <p:dialog widgetVar="dlg" header="LOGIN" closable="true" modal="true">
-                        <h:panelGrid columns="2">
-                            <h:outputText value="Username : "/>
-                            <p:inputText value="#{user.user}"/>
-                            <h:outputText value="Password : "/>
-                            <p:password value="#{user.pass}"/>
-                            <p:commandButton action="#{user.login()}" value="MASUK" icon="ui-icon-unlocked"/>
-                        </h:panelGrid>
-                    </p:dialog>
-                </h:form>
+    <h:body style="background-color: black">
+        <h:form>
+            <p:dialog widgetVar="dlg" header="LOGIN" closable="true" modal="true">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Username : "/>
+                    <p:inputText value="#{user.user}"/>
+                    <h:outputText value="Password : "/>
+                    <p:password value="#{user.pass}"/>
+                    <p:commandButton action="#{user.login()}" value="MASUK" icon="ui-icon-unlocked"/>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+                <header>
+            <center><p:galleria value="#{gbre.g}" var="g" showCaption="true" panelWidth="960">
+                <h:graphicImage title="Gambar #{g}" value="img/#{g}" alt="Gambar TK #{g}"/>
+                </p:galleria></center>
+        </header>
+        <article>
+            <h:form>
                 <p:tabView>
                     <p:tab title="Jurnal Umum" closable="true">
                         <h:form>
@@ -76,7 +73,7 @@ and open the template in the editor.
                                 <p:column headerText="Kredit">
                                     <h:outputText value="#{gg.k.kredit}"/>
                                 </p:column>
-                                <p:column headerText="tahun Ajaran">
+                                <p:column headerText="Tahun Ajaran">
                                     <h:outputText value="#{gg.tp}"/>
                                 </p:column>
                             </p:dataTable>
@@ -86,8 +83,7 @@ and open the template in the editor.
                         <h:form>
                             <p:dataGrid value="#{index.bln}" var="u" paginator="true" columns="1" rows="4">
                                 <p:panel header="#{u.kode}">
-                                    <p:dataTable value="#{u.l}" var="kas1" paginatorTemplate="{Exporters}" id="tblKas1" paginator="true"
-                                                 rows="3">
+                                    <p:dataTable value="#{u.l}" var="kas1" paginatorTemplate="{Exporters}" id="tblKas1" paginator="true">
                                         <f:facet name="{Exporters}">
                                             <h:commandLink>
                                                 <h:graphicImage value="img/excel.png"/>
@@ -124,8 +120,7 @@ and open the template in the editor.
                         <h:form>
                             <p:dataGrid value="#{index.bln2}" var="bln" paginator="true" columns="1" rows="4">
                                 <p:panel header="#{bln.kode}">
-                                    <p:dataTable paginator="true" paginatorTemplate="{Exporters}" value="#{bln.l}" var="u2" id="kas12tbl"
-                                                 rows="2">
+                                    <p:dataTable paginator="true" paginatorTemplate="{Exporters}" value="#{bln.l}" var="u2" id="kas12tbl">
                                         <f:facet name="{Exporters}">
                                             <h:commandLink>
                                                 <h:graphicImage value="img/excel.png"/>
@@ -153,7 +148,12 @@ and open the template in the editor.
                         </h:form>
                     </p:tab>
                 </p:tabView>
-            </p:layoutUnit>
-        </p:layout>
+            </h:form>
+            <h:form>
+                    <p:dock position="bottom">
+                        <p:menuitem value="838042092438078" icon="img/login-ico.png" onclick="PF('dlg').show()"/>
+                    </p:dock>
+                </h:form>
+        </article>
     </h:body>
 </html>
