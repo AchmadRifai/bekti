@@ -10,7 +10,7 @@
     </session-config>
     <context-param>  
     <param-name>primefaces.THEME</param-name>  
-    <param-value>sunny</param-value>  
+    <param-value>mint-choc</param-value>  
 </context-param>
 <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
