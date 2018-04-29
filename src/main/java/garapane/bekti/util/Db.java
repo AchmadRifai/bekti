@@ -36,7 +36,7 @@ public class Db {
             com.mysql.jdbc.Driver.class.newInstance();
         } catch (InstantiationException | IllegalAccessException ex) {
             Db.hindar(ex, "localhost");
-        }c=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/bekti", "root", "kirana");
+        }c=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/bekti", "root", "");
         s=c.createStatement();
     }
 
