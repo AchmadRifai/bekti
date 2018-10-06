@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
  * @author ai
  */
 @javax.faces.bean.ManagedBean
+@javax.faces.bean.ApplicationScoped
 public class Addgaji {
     public java.util.List<String>allGuru(){
         java.util.List<String>l=new java.util.LinkedList<String>();try {

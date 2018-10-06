@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
  */
 public class Db {
     public static void hindar(Exception e,String r){
-        java.sql.Timestamp t=java.sql.Timestamp.valueOf(LocalDateTime.now());
-        java.io.File f=new java.io.File("error/"+r.replaceAll(":","a").replaceAll(".","b")+"/"+t.getDate()+t.getMonth()+t.getYear()+"_"+t.getHours()+
-        t.getMinutes()+t.getSeconds()+t.getNanos()+".log");
+        String t=genTimeString(),s=r;
+        java.io.File f=new java.io.File("error/"+s.replace(':', 'a').replace('.', 'b')+"/"+t.replace('-', 'a').
+                replace(' ', 'b').replace(':', 'c')+"/error.log");
         if(!f.getParentFile().exists())f.getParentFile().mkdirs();
         if(f.exists())f.delete();try {
             java.io.PrintWriter o=new java.io.PrintWriter(f);
@@ -28,6 +28,19 @@ public class Db {
         }
     }
 
+    private static String genTimeString() {
+        String s="";
+        java.sql.Timestamp t=java.sql.Timestamp.valueOf(LocalDateTime.now());
+        s+=t.getYear()+"-";
+        s+=t.getMonth()+"-";
+        s+=t.getDate()+" ";
+        s+=t.getHours()+":";
+        s+=t.getMinutes()+":";
+        s+=t.getSeconds()+" ";
+        s+=t.getNanos();
+        return s;
+    }
+
     private java.sql.Connection c;
     private java.sql.Statement s;
 
@@ -36,7 +49,7 @@ public class Db {
             com.mysql.jdbc.Driver.class.newInstance();
         } catch (InstantiationException | IllegalAccessException ex) {
             Db.hindar(ex, "localhost");
-        }c=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/bekti", "root", "");
+        }c=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/bekti", "root", "kirana");
         s=c.createStatement();
     }
 

@@ -5,19 +5,33 @@
  */
 package garapane.bekti.model;
 
+import garapane.bekti.beans.Guru;
 import java.sql.SQLException;
 import java.util.Date;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 /**
  *
- * @author ai
+ * @author ashura
  */
 @javax.faces.bean.ManagedBean
-public class Addguru {
+@javax.faces.bean.ApplicationScoped
+public class Editguru {
     private String kode,nama,alamat;
     private Date masuk;
     private boolean hapus;
+    private Guru g;
+
+    public Guru getG() {
+        return g;
+    }
+
+    public void setG(Guru g) {
+        this.g = g;
+        if(g!=null)fillThis();
+        else init();
+    }
 
     public String getKode() {
         return kode;
@@ -51,47 +65,52 @@ public class Addguru {
         this.masuk = masuk;
     }
 
-    public void validasikan() {
-        hapus=kode==null;if(!hapus)try {
-            if(alamat.isEmpty()||kode.isEmpty()||nama.isEmpty())hapus=true;
-            garapane.bekti.util.Db d=new garapane.bekti.util.Db();
-            java.sql.PreparedStatement p=d.getPS("select nama from guru where kode=?");
-            p.setString(1, kode);
-            java.sql.ResultSet r=p.executeQuery();
-            hapus=r.next();
-            r.close();
-            p.close();
-            d.close();
-        } catch (SQLException ex) {
-            hapus=false;
-            garapane.bekti.util.Db.hindar(ex, FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-        }
-    }
-
     @javax.annotation.PostConstruct
-    public void init(){
-        validasikan();
+    public void init() {
+        kode="";
+        nama="";
+        alamat="";
+        masuk=Date.from(java.time.Instant.now());
+        hapus=false;
+        g=null;
     }
 
-    public boolean isCekal() {
-        return hapus;
+    private void fillThis() {
+        kode=""+g.getKode();
+        nama=""+g.getNama();
+        alamat=""+g.getAlamat();
+        masuk=(Date) g.getMasuk().clone();
     }
 
-    public String save(){
+    public String simpan() {
         try {
             garapane.bekti.util.Db d=new garapane.bekti.util.Db();
+            java.sql.PreparedStatement p=d.getPS("update guru set nama=?,alamat=?,masuk=? where kode=?");
+            p.setString(1, nama);
+            p.setString(2, alamat);
             java.time.LocalDate ld=masuk.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-            java.sql.PreparedStatement p=d.getPS("insert into guru values(?,?,?,?,?)");
-            p.setString(1, kode);
-            p.setString(2, nama);
-            p.setString(3, alamat);
-            p.setDate(4, java.sql.Date.valueOf(ld));
-            p.setBoolean(5, false);
+            p.setDate(3, java.sql.Date.valueOf(ld));
+            p.setString(4, kode);
             p.execute();
-            p.close();
             d.close();
         } catch (SQLException ex) {
             garapane.bekti.util.Db.hindar(ex, FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-        }return User.ADMIN;
+        } return User.ADMIN;
+    }
+
+    public void aksi(ActionEvent e) {
+        try {
+            garapane.bekti.util.Db d=new garapane.bekti.util.Db();
+            java.sql.PreparedStatement p=d.getPS("update guru set nama=?,alamat=?,masuk=? where kode=?");
+            p.setString(1, nama);
+            p.setString(2, alamat);
+            java.time.LocalDate ld=masuk.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            p.setDate(3, java.sql.Date.valueOf(ld));
+            p.setString(4, kode);
+            p.execute();
+            d.close();
+        } catch (SQLException ex) {
+            garapane.bekti.util.Db.hindar(ex, FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+        }
     }
 }

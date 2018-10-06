@@ -1,0 +1,47 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10.12
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.4.122.130:3306
+-- Generation Time: Jul 16, 2017 at 09:03 AM
+-- Server version: 5.5.52
+-- PHP Version: 5.3.3
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `bekti`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `akutansi`
+--
+
+CREATE TABLE IF NOT EXISTS `akutansi` (
+  `kode` varchar(20) NOT NULL,
+  `tgl` date NOT NULL,
+  `hal` text,
+  `ket` text NOT NULL,
+  `duwik` bigint(20) NOT NULL,
+  `tipe` varchar(6) NOT NULL,
+  PRIMARY KEY (`kode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `akutansi`
+--
+
+INSERT INTO `akutansi` (`kode`, `tgl`, `hal`, `ket`, `duwik`, `tipe`) VALUES
+('kredit140117105755', '2009-01-11', '', 'Gaji untuk Bu Lilik R', 125000, 'kredit'),
+('kredit140117105827', '2009-01-19', '', 'Gaji untuk Bu Siti K.', 325000, 'kredit'),
+('kredit140117105845', '2009-01-19', '', 'Gaji untuk Bu Windari', 25000, 'kredit'),
+('kredit140117105923', '2009-01-11', '', 'Gaj

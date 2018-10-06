@@ -25,7 +25,7 @@ and open the template in the editor.
         </header>
         <article>
             <p:tabView>
-                <p:tab title="Daftar Guru" closable="true" id="tabGuru">
+                <p:tab title="Daftar Guru" closable="true">
                     <h:form>
                         <h:commandLink>
                             <h:graphicImage value="img/excel.png"/>
@@ -33,14 +33,24 @@ and open the template in the editor.
                         </h:commandLink>
                         <p:dataTable value="#{admin.gurune}" var="guru" id="gurutbl">
                             <p:column headerText="Nama">
-                                    <h:outputText value="#{guru.nama}"/>
-                                </p:column>
-                                <p:column headerText="Alamat">
-                                    <h:outputText value="#{guru.alamat}"/>
-                                </p:column>
-                                <p:column headerText="Masuk">
-                                    <h:outputText value="#{guru.masuk}"/>
-                                </p:column>
+                                <h:outputText value="#{guru.nama}"/>
+                            </p:column>
+                            <p:column headerText="Alamat">
+                                <h:outputText value="#{guru.alamat}"/>
+                            </p:column>
+                            <p:column headerText="Masuk">
+                                <h:outputText value="#{guru.masuk}"/>
+                            </p:column>
+                            <p:column headerText="Operasi">
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="HAPUS" icon="ui-icon-trash" oncomplete="PF('delGuru').show()" update=":frm:delGur">
+                                        <f:setPropertyActionListener value="#{guru}" target="#{delguru.g}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="EDIT" icon="ui-icon-pencil" update=":frm:editGur" oncomplete="PF('editGuru').show()">
+                                        <f:setPropertyActionListener value="#{guru}" target="#{editguru.g}"/>
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </p:column>
                         </p:dataTable>
                     </h:form>
                 </p:tab>
@@ -85,8 +95,15 @@ and open the template in the editor.
                                 <p:column headerText="Kredit">
                                     <h:outputText value="#{gg.k.kredit}"/>
                                 </p:column>
-                                <p:column headerText="tahun Ajaran">
+                                <p:column headerText="Tahun Ajaran">
                                     <h:outputText value="#{gg.tp}"/>
+                                </p:column>
+                                <p:column headerText="Operasi">
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="EDIT" icon="ui-icon-pencil" update=":frm:editGaji" oncomplete="PF('editGaji').show()">
+                                            <f:setPropertyActionListener value="#{gg}" target="#{editgaji.g}"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
                                 </p:column>
                             </p:dataTable>
                         </h:form>
@@ -160,13 +177,16 @@ and open the template in the editor.
                         </h:form>
                     </p:tab>
             </p:tabView>
-            <h:form>
+            <h:form id="frm">
                     <p:dock position="bottom">
                         <p:menuitem value="TAMBAH GURU" icon="img/add-work.png" onclick="PF('guruDLG').show()"/>
                         <p:menuitem value="TAMBAH GAJI" icon="img/addpay.png" onclick="PF('gajiDLG').show()"/>
                         <p:menuitem value="TAMBAH TRANSAKSI" icon="img/add-trans.jpg" onclick="PF('transDLG').show()"/>
                         <p:menuitem value="KELUAR" icon="img/Logout.png" action="#{user.logout()}"/>
                     </p:dock>
+                <p:dialog widgetVar="editGaji" header="Perubahan Data Gaji" modal="true" closable="true" id="editGaji">
+                    <h:panelGrid columns="2" rendered="#{not empty editgaji.kode}"></h:panelGrid>
+                </p:dialog>
                     <p:dialog widgetVar="gajiDLG" header="Dialog Pendataan Gaji" modal="true" closable="true">
                         <h:panelGrid columns="2">
                             <p:selectOneRadio value="#{addgaji.guru}" layout="grid" columns="1">
@@ -206,7 +226,24 @@ and open the template in the editor.
                             <p:commandButton value="SIMPAN" action="#{addguru.save()}"/>
                         </h:panelGrid>
                     </p:dialog>
-                </h:form>
+                    <p:dialog header="Edit Guru" widgetVar="editGuru" modal="true" resizable="false" closable="true" id="editGur">
+                            <h:panelGrid columns="2" rendered="#{not empty editguru.g}">
+                                <h:outputText value="Nama Guru : "/>
+                                <p:inputText value="#{editguru.nama}"/>
+                                <h:outputText value="Tanggal Masuk Guru : "/>
+                                <p:calendar showOn="button" value="#{editguru.masuk}"/>
+                                <h:outputText value="Alamat Guru : "/>
+                                <p:inputTextarea value="#{editguru.alamat}"/>
+                                <p:commandButton value="SIMPAN" action="#{editguru.simpan()}"/>
+                            </h:panelGrid>
+                        </p:dialog>
+                <p:dialog header="Hapus Guru" widgetVar="delGuru" modal="true" resizable="false" closable="true" id="delGur">
+                    <h:panelGrid columns="1" rendered="#{not empty delguru.g}">
+                        <h:outputText value="Apakah anda ingin menghapus data guru #{delguru.g.nama}?"/>
+                        <p:commandButton value="YA" action="#{delguru.simpan()}"/>
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
         </article>
     </h:body>
 </html>

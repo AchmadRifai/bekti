@@ -136,4 +136,12 @@ public class Index {
         }r.close();
         d.close();
     }
+
+    public String reloadAdmin() {
+        return User.ADMIN;
+    }
+
+    public String reloadIndex() {
+        return User.INDEX;
+    }
 }

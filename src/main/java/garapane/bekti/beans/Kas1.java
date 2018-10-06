@@ -15,13 +15,14 @@ import org.joda.money.CurrencyUnit;
 @javax.faces.bean.ManagedBean
 @javax.faces.bean.ApplicationScoped
 public class Kas1 {
-    private String hal,ket;
+    private String hal,ket,k;
     private org.joda.money.Money kredit,debit,saldo;
     private int no;
     private java.sql.Date tgl;
 
     public Kas1(String kode,garapane.bekti.util.Db d) throws SQLException {
         java.sql.PreparedStatement p=d.getPS("select*from akutansi where kode=?");
+        k=kode;
         p.setString(1, kode);
         java.sql.ResultSet r=p.executeQuery();
         if(r.next()){
@@ -94,5 +95,13 @@ public class Kas1 {
 
     public void setTgl(java.sql.Date tgl) {
         this.tgl = tgl;
+    }
+
+    public String getK() {
+        return k;
+    }
+
+    public void setK(String k) {
+        this.k = k;
     }
 }
