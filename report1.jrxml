@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="610f83c7-ce36-49b1-923a-4a4206e06e61">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="guru" class="java.lang.String"/>
+	<parameter name="tp" class="java.lang.String"/>
+	<parameter name="bulan" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     akutansi.`tgl` AS akutansi_tgl,
+     akutansi.`hal` AS akutansi_hal,
+     akutansi.`ket` AS akutansi_ket,
+     akutansi.`duwik` AS akutansi_duwik,
+     akutansi.`tipe` AS akutansi_tipe,
+     gaji.`bulan` AS gaji_bulan,
+     gaji.`t` AS gaji_t,
+     guru.`nama` AS guru_nama,
+     guru.`alamat` AS guru_alamat,
+     guru.`masuk` AS guru_masuk,
+     guru.`hapus` AS guru_hapus
+FROM
+     `akutansi` akutansi INNER JOIN `gaji` gaji ON akutansi.`kode` = gaji.`trans`
+     INNER JOIN `guru` guru ON gaji.`guru` = guru.`kode` where gaji.`guru` = $P{guru} and gaji.`bulan` = $P{bulan} and gaji.`t` = $P{tp}]]>
+	</queryString>
+	<field name="akutansi_tgl" class="java.sql.Date"/>
+	<field name="akutansi_hal" class="java.lang.String"/>
+	<field name="akutansi_ket" class="java.lang.String"/>
+	<field name="akutansi_duwik" class="java.lang.Long"/>
+	<field name="akutansi_tipe" class="java.lang.String"/>
+	<field name="gaji_bulan" class="java.lang.String"/>
+	<field name="gaji_t" class="java.lang.String"/>
+	<field name="guru_nama" class="java.lang.String"/>
+	<field name="guru_alamat" class="java.lang.String"/>
+	<field name="guru_masuk" class="java.sql.Date"/>
+	<field name="guru_hapus" class="java.lang.Boolean"/>
+	<group name="guru_nama">
+		<groupExpression><![CDATA[$F{guru_nama}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="7" width="597" height="24" forecolor="#B89F7D" backcolor="#F2EBDF" uuid="1febe3fc-8d06-4d8f-986f-541b71025c38"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#736343" uuid="441f4a17-78e7-42a7-881d-90ce3490f87e"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="SubTitle" x="68" y="0" width="413" height="24" forecolor="#736343" uuid="9432ca7e-7af2-4103-96b0-a41031a0f461"/>
+						<textElement>
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{guru_nama}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="gaji_bulan">
+		<groupExpression><![CDATA[$F{gaji_bulan}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<textField>
+					<reportElement style="SubTitle" x="0" y="4" width="460" height="20" uuid="49e95db8-23c1-4508-98f6-4ad518cff8e7"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{gaji_bulan} +" "+ $F{gaji_t}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="gaji_t">
+		<groupExpression><![CDATA[$F{gaji_t}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="170" y="0" width="263" height="62" uuid="560fe546-d897-4fc7-8b4e-5579a7944b25"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[SLIP GAJI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="219" y="62" width="196" height="22" uuid="bb31c5b7-ac5e-492c-a176-51adae431c43"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[TK TUNAS MEKAR]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="c51197f2-280b-450d-b079-23ed7113862b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="69" height="15" forecolor="#736343" uuid="6b609823-15cb-425c-a06a-83b3dc912c51"/>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="194" y="0" width="69" height="15" forecolor="#736343" uuid="f98978b1-ede9-4dd0-b94c-bb755a2f0f1c"/>
+				<text><![CDATA[Keterangan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="363" y="0" width="69" height="15" forecolor="#736343" uuid="c97df7c4-2017-4afd-adc8-b2cd62c310ba"/>
+				<text><![CDATA[Jumlah Gaji]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="460" y="0" width="94" height="15" forecolor="#736343" uuid="f00b3d8d-3663-41dd-93d8-f49e28b31403"/>
+				<text><![CDATA[Alamat Rumah]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="fda3e9b4-3e14-41db-9b88-d3b0176be8f2"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="106" height="15" uuid="5ad875f2-a67f-457f-9faf-c487304a9df5"/>
+					<textFieldExpression><![CDATA[$F{akutansi_tgl}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="159" y="0" width="69" height="15" uuid="9bdb8356-5703-46e8-813b-d8e7e1f5a9f7"/>
+					<textFieldExpression><![CDATA[$F{akutansi_ket}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="365" y="0" width="84" height="15" uuid="24f9485c-2ec5-460c-91be-fbe172f35e86"/>
+					<textFieldExpression><![CDATA[$F{akutansi_duwik}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="461" y="0" width="93" height="15" uuid="f1517d21-cae4-4843-9d7a-6b5b65d6ca73"/>
+					<textFieldExpression><![CDATA[$F{guru_alamat}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="d5b9273c-8568-46d1-b3c0-ccf146d03c16"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="1126a59b-8d66-4b89-b656-3dc63bc4184f"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="cf55f0d6-e9e6-4b1b-a343-9a46752f923c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="1cdad03a-1a8c-4458-9dc7-b183c2b5b86c"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="50f1d6e2-8a08-40a1-8a28-8c48cec154d0"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

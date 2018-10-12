@@ -103,6 +103,9 @@ and open the template in the editor.
                                         <p:commandButton value="EDIT" icon="ui-icon-pencil" update=":frm:editGaji" oncomplete="PF('editGaji').show()">
                                             <f:setPropertyActionListener value="#{gg}" target="#{editgaji.g}"/>
                                         </p:commandButton>
+                                        <p:commandButton value="CETAK" icon="ui-icon-print" update=":frm:prtGaji" oncomplete="PF('prtGaji').show()">
+                                            <f:setPropertyActionListener target="#{cetakgaji.g}" value="#{gg}"/>
+                                        </p:commandButton>
                                     </h:panelGrid>
                                 </p:column>
                             </p:dataTable>
@@ -185,7 +188,13 @@ and open the template in the editor.
                         <p:menuitem value="KELUAR" icon="img/Logout.png" action="#{user.logout()}"/>
                     </p:dock>
                 <p:dialog widgetVar="editGaji" header="Perubahan Data Gaji" modal="true" closable="true" id="editGaji">
-                    <h:panelGrid columns="2" rendered="#{not empty editgaji.kode}"></h:panelGrid>
+                    <h:panelGrid columns="2" rendered="#{not empty editgaji.g}">
+                        <h:outputText value="#{editgaji.guru}"/>
+                        <p:calendar showOn="button" value="#{editgaji.tgl}"/>
+                        <h:outputText value="Masukan Jumlah Gaji : "/>
+                        <p:inputNumber value="#{editgaji.jum}"/>
+                        <p:commandButton value="SIMPAN" icon="ui-icon-check" action="#{editgaji.simpen()}"/>
+                    </h:panelGrid>
                 </p:dialog>
                     <p:dialog widgetVar="gajiDLG" header="Dialog Pendataan Gaji" modal="true" closable="true">
                         <h:panelGrid columns="2">
@@ -241,6 +250,13 @@ and open the template in the editor.
                     <h:panelGrid columns="1" rendered="#{not empty delguru.g}">
                         <h:outputText value="Apakah anda ingin menghapus data guru #{delguru.g.nama}?"/>
                         <p:commandButton value="YA" action="#{delguru.simpan()}"/>
+                    </h:panelGrid>
+                </p:dialog>
+                <p:dialog header="Cetak Gaji" widgetVar="prtGaji" modal="true" resizable="false" closable="true" id="prtGaji">
+                    <h:panelGrid columns="1" rendered="#{not empty cetakgaji.g}">
+                        <h:outputText value="Ingin bentuk laporan seperti apa?"/>
+                        <p:commandButton value="PDF" action="#{cetakgaji.cetak()}"/>
+                        <p:commandButton value="CETAK KASAR" action="#{cetakgaji.print()}"/>
                     </h:panelGrid>
                 </p:dialog>
             </h:form>

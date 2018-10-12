@@ -10,8 +10,6 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Date;
 import javax.faces.context.FacesContext;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
 
 /**
  *
@@ -37,8 +35,8 @@ public class Editgaji {
 
     public String simpen() {
         try {
-            garapane.bekti.util.Db d = new garapane.bekti.util.Db();
-            d.close();
+            ubahGaji();
+            akutansi();
         } catch (SQLException ex) {
             garapane.bekti.util.Db.hindar(ex, FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
         } return User.ADMIN;
@@ -46,16 +44,14 @@ public class Editgaji {
 
     private void fillData() {
         guru = "" + g.getG().getKode();
-        tgl = Date.from(g.getK().getTgl().toInstant());
-        if(Money.zero(CurrencyUnit.of("IDR")).isEqual(g.getK().getDebit()))
-            jum = BigDecimal.ZERO.add(g.getK().getKredit().getAmount());
-        else jum = BigDecimal.ZERO.add(g.getK().getDebit().getAmount());
+        tgl = new Date(g.getK().getTgl().getTime());
+        jum = BigDecimal.ZERO.add(g.getK().getKredit().getAmount());
         muatKode();
     }
 
     @javax.annotation.PostConstruct
     public void init() {
-        tgl = new java.util.Date();
+        tgl = null;
         guru = "";
         jum = new BigDecimal(0);
         g = null;
@@ -97,5 +93,41 @@ public class Editgaji {
 
     public String getKode() {
         return kode;
+    }
+
+    public void setTgl(Date tgl) {
+        this.tgl = tgl;
+    }
+
+    private void ubahGaji() throws SQLException {
+        garapane.bekti.util.Db d = new garapane.bekti.util.Db();
+        java.time.LocalDate ld=tgl.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        java.sql.PreparedStatement p = d.getPS("update gaji set bulan=?,t=? where guru=? and trans=?");
+        p.setString(1, "" + ld.getMonth());
+        p.setString(2, tpne());
+        p.setString(3, guru);
+        p.setString(4, kode);
+        p.execute();
+        p.close();
+        d.close();
+    }
+
+    private String tpne() {
+        int i=tgl.getMonth()-1;String kode;
+        if(i<6)kode=""+(tgl.getYear()+1900-1)+"/"+(1900+tgl.getYear());
+        else kode=""+(tgl.getYear()+1900)+"/"+(tgl.getYear()+1900+1);
+        return kode;
+    }
+
+    private void akutansi() throws SQLException {
+        garapane.bekti.util.Db d = new garapane.bekti.util.Db();
+        java.sql.PreparedStatement p = d.getPS("update akutansi set tgl=?,duwik=? where kode=?");
+        java.time.LocalDate ld=tgl.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        p.setDate(1, java.sql.Date.valueOf(ld));
+        p.setBigDecimal(2, jum);
+        p.setString(3, kode);
+        p.execute();
+        p.close();
+        d.close();
     }
 }

@@ -6,6 +6,7 @@
 package garapane.bekti.util;
 
 import java.io.FileNotFoundException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
@@ -16,8 +17,10 @@ import java.time.LocalDateTime;
 public class Db {
     public static void hindar(Exception e,String r){
         String t=genTimeString(),s=r;
-        java.io.File f=new java.io.File("error/"+s.replace(':', 'a').replace('.', 'b')+"/"+t.replace('-', 'a').
+        java.io.File f;
+        if(s!=null)f=new java.io.File("error/"+s.replace(':', 'a').replace('.', 'b')+"/"+t.replace('-', 'a').
                 replace(' ', 'b').replace(':', 'c')+"/error.log");
+        else f=new java.io.File("error/"+s+"/error.log");
         if(!f.getParentFile().exists())f.getParentFile().mkdirs();
         if(f.exists())f.delete();try {
             java.io.PrintWriter o=new java.io.PrintWriter(f);
@@ -41,7 +44,7 @@ public class Db {
         return s;
     }
 
-    private java.sql.Connection c;
+    private Connection c;
     private java.sql.Statement s;
 
     public Db() throws SQLException {
@@ -64,5 +67,9 @@ public class Db {
 
     public java.sql.ResultSet getRS(String sql) throws SQLException{
         return s.executeQuery(sql);
+    }
+
+    public Connection getC() {
+        return c;
     }
 }
